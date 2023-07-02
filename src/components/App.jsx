@@ -10,24 +10,19 @@ import Searchbar from './searchbar/Searchbar';
 export class App extends Component {
   state = {};
 
+  fentchToServer(searchValue) {
+    console.log(searchValue);
+  }
+
   render() {
     return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontSize: 40,
-          color: '#010101',
-        }}
-      >
-        <Searchbar />
-        <ImageGallery />
+      <div>
+        <Searchbar onSubmit={this.fentchToServer} />
+        {/* <ImageGallery />
         <ImageGalleryItem />
         <Loader />
         <Button />
-        <Modal></Modal>
+        <Modal /> */}
       </div>
     );
   }
