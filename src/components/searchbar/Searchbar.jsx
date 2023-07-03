@@ -1,13 +1,18 @@
+// import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-class Searchbar extends Component {
+export default class Searchbar extends Component {
   state = {
     searchValue: '',
   };
 
   onSubmitForm = e => {
     e.preventDefault();
-    this.props.onSubmit(this.state);
+    if (this.state.searchValue === '') {
+      alert('Ваша строка пустая. Введите текст');
+      return;
+    }
+    this.props.onSubmit(this.state.searchValue.trim());
     this.setState({ searchValue: '' });
   };
 
@@ -40,5 +45,3 @@ class Searchbar extends Component {
     );
   }
 }
-
-export default Searchbar;
