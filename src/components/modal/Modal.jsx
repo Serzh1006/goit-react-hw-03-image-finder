@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import css from './modal.module.css';
 
 class Modal extends Component {
-  state = {
-    isOpen: false,
-  };
-
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
   }
@@ -38,3 +35,9 @@ class Modal extends Component {
 }
 
 export default Modal;
+
+Modal.propTypes = {
+  url: PropTypes.string.isRequired,
+  tags: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+};

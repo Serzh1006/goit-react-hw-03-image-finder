@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import css from './imagegalleryitem.module.css';
 
 const ImageGalleryItem = ({ webformat, alt, mouse, largeFormat }) => {
@@ -13,3 +13,10 @@ const ImageGalleryItem = ({ webformat, alt, mouse, largeFormat }) => {
 };
 
 export default ImageGalleryItem;
+
+ImageGalleryItem.propTypes = {
+  webformat: PropTypes.string.isRequired,
+  alt: PropTypes.string.isRequired,
+  largeFormat: PropTypes.string.isRequired,
+  mouse: PropTypes.func.isRequired,
+};

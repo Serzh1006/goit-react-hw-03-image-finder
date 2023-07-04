@@ -23,19 +23,24 @@ export class App extends Component {
   async componentDidUpdate(prevProps, prevState) {
     const { query, page, posts } = this.state;
 
-    try {
-      this.setState({ isLoading: true });
-      const response = await fetchData(query, page);
-      const { totalHits, hits } = response.data;
-      if (query !== prevState.query || posts.length === 0) {
-        this.setState({ total: totalHits, posts: hits });
-      } else if (page !== prevState.page) {
-        this.setState({ posts: [...prevState.posts, ...hits] });
+    if (prevState.query !== query || prevState.page !== page) {
+      try {
+        this.setState({ isLoading: true });
+        const response = await fetchData(query, page);
+        const { totalHits, hits } = response.data;
+
+        if (prevState.query !== query || posts.length === 0) {
+          return this.setState({ total: totalHits, posts: hits });
+        }
+
+        if (prevState.page !== page) {
+          return this.setState({ posts: [...prevState.posts, ...hits] });
+        }
+      } catch (error) {
+        console.log(error.message);
+      } finally {
+        this.setState({ isLoading: false });
       }
-    } catch (error) {
-      console.log(error.message);
-    } finally {
-      this.setState({ isLoading: false });
     }
   }
 
@@ -77,7 +82,6 @@ export class App extends Component {
             onClose={this.closeModal}
             url={this.state.url}
             tags={this.state.tags}
-            isOpen={isOpen}
           />
         )}
       </div>

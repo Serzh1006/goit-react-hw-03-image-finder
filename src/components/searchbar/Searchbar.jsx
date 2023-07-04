@@ -1,5 +1,5 @@
-// import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { GrFormSearch } from 'react-icons/gr';
 import css from './searchbar.module.css';
 
@@ -11,7 +11,7 @@ export default class Searchbar extends Component {
   onSubmitForm = e => {
     e.preventDefault();
     if (this.state.searchValue === '') {
-      alert('Ваша строка пустая. Введите текст');
+      alert('Enter your text in the search box');
       return;
     }
     this.props.onSubmit(this.state.searchValue.trim());
@@ -47,3 +47,7 @@ export default class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

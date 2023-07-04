@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import ImageGalleryItem from '../imagegalleryitem/Imagegalleryitem';
 import css from './imagegallery.module.css';
 
@@ -21,3 +21,11 @@ const ImageGallery = ({ dataPosts, mouse }) => {
 };
 
 export default ImageGallery;
+
+ImageGallery.propTypes = {
+  dataPosts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+    })
+  ),
+};
