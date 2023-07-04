@@ -1,5 +1,6 @@
 // import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { GrFormSearch } from 'react-icons/gr';
 import css from './searchbar.module.css';
 
 export default class Searchbar extends Component {
@@ -28,7 +29,7 @@ export default class Searchbar extends Component {
       <header className={css.searchbar}>
         <form onSubmit={this.onSubmitForm} className={css.searchForm}>
           <button type="submit" className={css.searchFormButton}>
-            <span className={css.searchFormButtonLabel}>Search</span>
+            <GrFormSearch className={css.reactIcons} />
           </button>
 
           <input

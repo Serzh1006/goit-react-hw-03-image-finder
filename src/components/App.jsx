@@ -21,33 +21,22 @@ export class App extends Component {
   };
 
   async componentDidUpdate(prevProps, prevState) {
-    const { query, page } = this.state;
-    if (page !== prevState.page || query !== prevState.query) {
-      try {
-        this.setState({ isLoading: true });
-        const response = await fetchData(query, page);
-        const { totalHits, hits } = response.data;
-        if (query !== prevState.query) {
-          this.setState({ total: totalHits, posts: hits });
-        } else {
-          this.setState({ posts: [...prevState.posts, ...hits] });
-        }
-      } catch (error) {
-        console.log(error.message);
-      } finally {
-        this.setState({ isLoading: false });
+    const { query, page, posts } = this.state;
+
+    try {
+      this.setState({ isLoading: true });
+      const response = await fetchData(query, page);
+      const { totalHits, hits } = response.data;
+      if (query !== prevState.query || posts.length === 0) {
+        return this.setState({ total: totalHits, posts: hits });
+      } else if (page !== prevState.page) {
+        return this.setState({ posts: [...prevState.posts, ...hits] });
       }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      this.setState({ isLoading: false });
     }
-  }
-
-  componentDidMount() {
-    console.log('componentDidMount');
-    window.addEventListener('keydown', this.handleKeyDown);
-  }
-
-  componentWillUnmount() {
-    console.log('componentWillUnmount');
-    window.removeEventListener('keydown', this.handleKeyDown);
   }
 
   clickMouse = (largeFormat, alt) => {
@@ -56,7 +45,7 @@ export class App extends Component {
   };
 
   fetchToServer = searchValue => {
-    this.setState({ query: searchValue, page: 1 });
+    this.setState({ query: searchValue, page: 1, posts: [] });
   };
 
   loadMoreImg = () => {
@@ -66,19 +55,11 @@ export class App extends Component {
   };
 
   openModal = () => {
-    console.log('open');
     this.setState({ isOpen: true });
   };
 
   closeModal = () => {
-    console.log('close');
     this.setState({ isOpen: false });
-  };
-
-  handleKeyDown = e => {
-    if (e.code === 'Escape') {
-      this.closeModal();
-    }
   };
 
   render() {
@@ -91,7 +72,14 @@ export class App extends Component {
         )}
         {isLoading && <Loader />}
         {posts.length < total && <Button moreImg={this.loadMoreImg} />}
-        {isOpen && <Modal url={this.state.url} tags={this.state.tags} />}
+        {isOpen && (
+          <Modal
+            onClose={this.closeModal}
+            url={this.state.url}
+            tags={this.state.tags}
+            isOpen={isOpen}
+          />
+        )}
       </div>
     );
   }
