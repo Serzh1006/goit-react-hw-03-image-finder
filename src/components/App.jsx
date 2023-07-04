@@ -28,9 +28,9 @@ export class App extends Component {
       const response = await fetchData(query, page);
       const { totalHits, hits } = response.data;
       if (query !== prevState.query || posts.length === 0) {
-        return this.setState({ total: totalHits, posts: hits });
+        this.setState({ total: totalHits, posts: hits });
       } else if (page !== prevState.page) {
-        return this.setState({ posts: [...prevState.posts, ...hits] });
+        this.setState({ posts: [...prevState.posts, ...hits] });
       }
     } catch (error) {
       console.log(error.message);
