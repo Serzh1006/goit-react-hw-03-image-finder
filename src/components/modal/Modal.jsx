@@ -1,11 +1,10 @@
 import css from './modal.module.css';
 
-const Modal = () => {
+const Modal = ({ url, tags }) => {
   return (
     <div className={css.overlay}>
       <div className={css.modal}>
-        <h1>modal</h1>
-        <img src="" alt="" />
+        <img src={url} alt={tags} />
       </div>
     </div>
   );

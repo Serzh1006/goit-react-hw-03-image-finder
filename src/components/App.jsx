@@ -6,6 +6,7 @@ import Button from './button/Button';
 import Loader from './loader/Loader';
 import Modal from './modal/Modal';
 import { fetchData } from 'services/api';
+import css from './app.module.css';
 
 export class App extends Component {
   state = {
@@ -15,6 +16,8 @@ export class App extends Component {
     page: 1,
     query: '',
     isOpen: false,
+    url: '',
+    tags: '',
   };
 
   async componentDidUpdate(prevProps, prevState) {
@@ -47,6 +50,11 @@ export class App extends Component {
     window.removeEventListener('keydown', this.handleKeyDown);
   }
 
+  clickMouse = (largeFormat, alt) => {
+    this.setState({ url: largeFormat, tags: alt });
+    this.openModal();
+  };
+
   fetchToServer = searchValue => {
     this.setState({ query: searchValue, page: 1 });
   };
@@ -76,15 +84,14 @@ export class App extends Component {
   render() {
     const { posts, isLoading, total, isOpen } = this.state;
     return (
-      <div>
+      <div className={css.app}>
         <Searchbar onSubmit={this.fetchToServer} />
-        {posts.length > 0 && <ImageGallery dataPosts={posts} />}
+        {posts.length > 0 && (
+          <ImageGallery dataPosts={posts} mouse={this.clickMouse} />
+        )}
         {isLoading && <Loader />}
         {posts.length < total && <Button moreImg={this.loadMoreImg} />}
-        {isOpen && <Modal />}
-        <button onClick={this.openModal} type="button">
-          open
-        </button>
+        {isOpen && <Modal url={this.state.url} tags={this.state.tags} />}
       </div>
     );
   }
