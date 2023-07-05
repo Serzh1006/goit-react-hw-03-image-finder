@@ -12,7 +12,7 @@ import css from './app.module.css';
 
 const messageObj = {
   position: 'top-center',
-  autoClose: 5000,
+  autoClose: 3000,
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
@@ -101,7 +101,7 @@ export class App extends Component {
         )}
         <ToastContainer
           position="top-center"
-          autoClose={5000}
+          autoClose={3000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
