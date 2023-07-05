@@ -42,10 +42,15 @@ export class App extends Component {
         const response = await fetchData(query, page);
         const { totalHits, hits } = response.data;
         if (hits.length === 0) {
-          toast.warning('Nothing was found for your search', messageObj);
+          return toast.warning('Nothing was found for your search', messageObj);
         }
         if (prevState.query !== query || posts.length === 0) {
-          return this.setState({ total: totalHits, posts: hits });
+          this.setState({ total: totalHits, posts: hits });
+          toast.info(
+            `We found ${totalHits} images for your request`,
+            messageObj
+          );
+          return;
         }
 
         if (prevState.page !== page) {
