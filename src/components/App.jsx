@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import Searchbar from './searchbar/Searchbar';
 import ImageGallery from './imagegallery/Imagegallery';
@@ -7,6 +9,17 @@ import Loader from './loader/Loader';
 import Modal from './modal/Modal';
 import { fetchData } from 'services/api';
 import css from './app.module.css';
+
+const messageObj = {
+  position: 'top-center',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'dark',
+};
 
 export class App extends Component {
   state = {
@@ -28,7 +41,9 @@ export class App extends Component {
         this.setState({ isLoading: true });
         const response = await fetchData(query, page);
         const { totalHits, hits } = response.data;
-
+        if (hits.length === 0) {
+          toast.warning('Nothing was found for your search', messageObj);
+        }
         if (prevState.query !== query || posts.length === 0) {
           return this.setState({ total: totalHits, posts: hits });
         }
@@ -37,7 +52,7 @@ export class App extends Component {
           return this.setState({ posts: [...prevState.posts, ...hits] });
         }
       } catch (error) {
-        console.log(error.message);
+        toast.error('Server error, please try again or later', messageObj);
       } finally {
         this.setState({ isLoading: false });
       }
@@ -84,6 +99,18 @@ export class App extends Component {
             tags={this.state.tags}
           />
         )}
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </div>
     );
   }

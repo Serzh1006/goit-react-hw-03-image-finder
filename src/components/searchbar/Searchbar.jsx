@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
 import { GrFormSearch } from 'react-icons/gr';
 import css from './searchbar.module.css';
+
+const messageObj = {
+  position: 'top-center',
+  autoClose: 5000,
+  hideProgressBar: false,
+  closeOnClick: true,
+  pauseOnHover: true,
+  draggable: true,
+  progress: undefined,
+  theme: 'dark',
+};
 
 export default class Searchbar extends Component {
   state = {
@@ -11,7 +24,7 @@ export default class Searchbar extends Component {
   onSubmitForm = e => {
     e.preventDefault();
     if (this.state.searchValue === '') {
-      alert('Enter your text in the search box');
+      toast.info('Enter text for search', messageObj);
       return;
     }
     this.props.onSubmit(this.state.searchValue.trim());
@@ -43,6 +56,18 @@ export default class Searchbar extends Component {
             onChange={this.getValue}
           />
         </form>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
       </header>
     );
   }
